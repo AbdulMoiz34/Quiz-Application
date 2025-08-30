@@ -1,5 +1,5 @@
 import Home from "./Home";
-import Category from "./Category";
+import Quiz from "./Quiz";
 import NotFound from "./NotFound";
 
-export { Home, Category, NotFound };
+export { Home, Quiz, NotFound };

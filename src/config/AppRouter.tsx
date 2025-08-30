@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Home, Category, NotFound } from "../pages";
+import { Home, NotFound, Quiz } from "../pages";
 
 const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/:category" element={<Category />} />
+                <Route path="/quiz" element={<Quiz />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
