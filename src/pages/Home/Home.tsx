@@ -25,9 +25,9 @@ const Home = () => {
             try {
                 const { data } = await axios.get("https://opentdb.com/api_category.php");
                 setCategories(data.trivia_categories);
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-                alert("We've got unexpected error.");
+            } catch (error: any) {
+                console.log(error?.message || "Something went wrong.");
+                // alert("We've got unexpected error.");
             } finally {
                 setLoading(false);
             }

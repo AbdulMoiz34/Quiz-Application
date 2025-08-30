@@ -19,13 +19,10 @@ const showQuizConfirm = ({ category, difficulty, onStart }: QuizConfirmProps) =>
         ),
         okText: "Start",
         cancelText: "Cancel",
+        centered: true,
         onOk() {
             onStart();
         },
-        onCancel() {
-            console.log("User canceled the quiz");
-        },
-        centered: true,
     });
 };
 
