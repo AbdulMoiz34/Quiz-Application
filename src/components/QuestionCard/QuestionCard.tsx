@@ -10,10 +10,11 @@ interface QuestionCardProps extends Quiz {
     handlePrevQuestion: () => void;
     selected: string | boolean | null;
     onAnswer: (val: string | boolean) => void;
+    setIsFinished: () => void;
 }
 
-const QuestionCard = ({ question, options, currentIdx, totalQuestions, difficulty, category, handleNextQuestion, handlePrevQuestion, selected, onAnswer }: QuestionCardProps) => {
-    console.log(selected);
+const QuestionCard = ({ question, options, currentIdx, totalQuestions, difficulty, category, handleNextQuestion, handlePrevQuestion, selected, onAnswer, setIsFinished }: QuestionCardProps) => {
+
     return (
         <Card
             className="w-full max-w-3xl shadow-xl rounded-2xl p-8 flex flex-col gap-6 bg-white">
@@ -28,7 +29,7 @@ const QuestionCard = ({ question, options, currentIdx, totalQuestions, difficult
                         {difficulty}
                     </Tag>
                     <Tag
-                    color='blue'
+                        color='blue'
                         icon={<FaPalette />}
                         className="!inline-flex capitalize !items-center !py-1 !px-3 gap-2 text-sm font-medium">
                         {category}
@@ -72,7 +73,7 @@ const QuestionCard = ({ question, options, currentIdx, totalQuestions, difficult
                 </Button>
                 <Button
                     disabled={!selected}
-                    onClick={handleNextQuestion}
+                    onClick={currentIdx + 1 == totalQuestions ? setIsFinished : handleNextQuestion}
                     type="primary"
                     className={`!px-8 !py-2 !rounded-xl shadow-md ${selected && "hover:!bg-blue-600"}`}>
                     {currentIdx + 1 == totalQuestions ? "Submit" : "Next"}

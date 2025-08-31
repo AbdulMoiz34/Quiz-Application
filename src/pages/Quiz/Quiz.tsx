@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Loader, QuestionCard } from "../../components";
+import { Loader, QuestionCard, QuizResult } from "../../components";
 import type { Quiz } from "../../types";
 import { shuffleArray } from "../../helpers";
 
@@ -26,10 +26,12 @@ const Quiz: React.FC = () => {
     const [currentIdx, setCurrentIdx] = useState<number>(0);
     const currentQuiz = quiz[currentIdx];
     const [answers, setAnswers] = useState<{ [key: number]: string | boolean }>({});
+    const [isFinished, setIsFinished] = useState<boolean>(false);
+    console.log(answers);
 
     const getQuiz = async () => {
         try {
-            const res = await axios(`https://opentdb.com/api.php?category=${categoryId}&difficulty=${difficulty}&amount=20`);
+            const res = await axios(`https://opentdb.com/api.php?category=${categoryId}&difficulty=${difficulty}&amount=5`);
             const results = await res.data.results;
             if (!results.length) throw Error("Questions Not Available.");
             setQuiz(formatQuizWithOptions(results));
@@ -66,21 +68,23 @@ const Quiz: React.FC = () => {
     }
 
     const handleAnswer = (val: string | boolean) => {
-        console.log(answers);
         setAnswers(prev => ({ ...prev, [currentIdx]: val }));
     }
 
     return (
         <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-purple-50 to-blue-100 p-6">
             {error.length ? error :
-                <QuestionCard
-                    onAnswer={handleAnswer}
-                    selected={answers[currentIdx] ?? null}
-                    {...currentQuiz} options={currentQuiz.options}
-                    totalQuestions={quiz.length}
-                    currentIdx={currentIdx}
-                    handleNextQuestion={handleNextQuestion}
-                    handlePrevQuestion={handlePrevQuestion} />}
+                isFinished ?
+                    <QuizResult answers={answers} quiz={quiz}/>  : <QuestionCard
+                        setIsFinished={() => setIsFinished(true)}
+                        onAnswer={handleAnswer}
+                        selected={answers[currentIdx] ?? null}
+                        {...currentQuiz} options={currentQuiz.options}
+                        totalQuestions={quiz.length}
+                        currentIdx={currentIdx}
+                        handleNextQuestion={handleNextQuestion}
+                        handlePrevQuestion={handlePrevQuestion} />
+            }
         </div>
     );
 };
