@@ -23,12 +23,11 @@ const Card = ({ name, id }: CardProps) => {
             })
         } else {
             setCategory({ id, name } as Category);
-            // setCategoryId(id);
         }
     }
 
     return (
-        <button onClick={clickHandler} className="cursor-pointer shadow shadow-[#00000040] bg-[#f8f8f8] hover:bg-[#efefef] hover:outline-1 hover:outline-[#00000060] transition-all duration-200 rounded-2xl px-12 py-14 w-44 h-44 flex justify-center items-center">
+        <button onClick={clickHandler} className="cursor-pointer shadow shadow-[#00000040] bg-[#f8f8f8] hover:bg-[#efefef] hover:outline-1 hover:outline-[#00000060] transition-all duration-200 rounded-2xl px-12 w-44 h-42 flex justify-center items-center">
             <h2 className="text-gray-600 capitalize">{name}</h2>
         </button>
     );

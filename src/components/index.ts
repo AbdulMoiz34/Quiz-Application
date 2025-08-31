@@ -5,5 +5,6 @@ import Loader from "./Loader";
 import CategoryList from "./CategoryList";
 import DifficultyContainer from "./DifficultyContainer";
 import showQuizConfirm from "./ShowQuizConfirm";
+import QuestionCard from "./QuestionCard";
 
-export { Card, Heading, SecondaryHeading, Loader, CategoryList, DifficultyContainer, showQuizConfirm };
+export { Card, Heading, SecondaryHeading, Loader, CategoryList, DifficultyContainer, showQuizConfirm, QuestionCard };

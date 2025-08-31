@@ -3,22 +3,13 @@ import { CategoryList, DifficultyContainer, Heading, Loader, SecondaryHeading } 
 import axios from "axios";
 import QuizContext from "../../context/QuizContext";
 import type { Category } from "../../types";
-import { FaBackward } from "react-icons/fa";
-import { Tooltip } from "antd";
-
-const BackToCategoryBtn = ({ backToCategories }: { backToCategories: () => void }) => {
-    return (
-        <Tooltip placement="bottom" title="Back To Category">
-            <button className="cursor-pointer bg-[#efefef] hover:bg-gray-100 duration-150 transition-all px-12 py-3 shadow shadow-[#00000045] rounded-lg text-gray-800" onClick={backToCategories}><FaBackward /></button>
-        </Tooltip>
-    );
-}
 
 const Home = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [showDifficulty, setShowDifficulty] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [category, setCategory] = useState<Category | null>(null);
+    const [error, setError] = useState<string>("");
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -26,8 +17,7 @@ const Home = () => {
                 const { data } = await axios.get("https://opentdb.com/api_category.php");
                 setCategories(data.trivia_categories);
             } catch (error: any) {
-                console.log(error?.message || "Something went wrong.");
-                // alert("We've got unexpected error.");
+                setError(error?.message || "Something went wrong.")
             } finally {
                 setLoading(false);
             }
@@ -48,6 +38,8 @@ const Home = () => {
 
     if (loading) {
         return <Loader />
+    } else if (error.length) {
+        return <p className="w-full h-full flex justify-center items-center text-4xl sm:text-6xl">{error}.</p>
     }
 
     const QuizContextVal = {
@@ -60,13 +52,11 @@ const Home = () => {
             <div className="w-full sm:w-9/12 flex flex-col gap-6 pb-8">
                 <Heading text="Quiz App" />
                 <SecondaryHeading text={`${showDifficulty ? "Select Difficulty:" : "Categories:"}`} />
-                <QuizContext value={QuizContextVal}>
+                <QuizContext.Provider value={QuizContextVal}>
                     {showDifficulty ?
-                        <div className="flex flex-col justify-center items-center gap-12 min-h-[300px]">
-                            <DifficultyContainer />
-                            <BackToCategoryBtn backToCategories={backToCategories} />
-                        </div> : <CategoryList categories={categories} />}
-                </QuizContext>
+                        <DifficultyContainer backToCategories={backToCategories} /> :
+                        <CategoryList categories={categories} />}
+                </QuizContext.Provider>
             </div>
         </div>
     );
