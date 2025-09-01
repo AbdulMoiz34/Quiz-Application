@@ -30,7 +30,7 @@ const Quiz: React.FC = () => {
 
     const getQuiz = async () => {
         try {
-            const res = await axios(`https://opentdb.com/api.php?category=${categoryId}&difficulty=${difficulty}&amount=5`);
+            const res = await axios(`https://opentdb.com/api.php?category=${categoryId}&difficulty=${difficulty}&amount=20`);
             const results = await res.data.results;
             if (!results.length) throw Error("Questions Not Available.");
             setQuiz(formatQuizWithOptions(results));
