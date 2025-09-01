@@ -49,7 +49,7 @@ const Quiz: React.FC = () => {
         }
         getQuiz();
 
-    }, [getQuiz]);
+    }, []);
 
     if (loading) {
         return <Loader />;
