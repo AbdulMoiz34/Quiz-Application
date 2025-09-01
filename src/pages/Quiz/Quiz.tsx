@@ -2,12 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Loader, QuestionCard, QuizResult } from "../../components";
-import type { Quiz } from "../../types";
+import type { QuizType } from "../../types";
 import { shuffleArray } from "../../helpers";
 
 
 
-const formatQuizWithOptions = (quiz: Quiz[]) => {
+const formatQuizWithOptions = (quiz: QuizType[]) => {
     return quiz.map(item => {
         return { ...item, options: shuffleArray([item.correct_answer, ...item.incorrect_answers]) }
     });
@@ -15,7 +15,7 @@ const formatQuizWithOptions = (quiz: Quiz[]) => {
 
 const Quiz: React.FC = () => {
 
-    const [quiz, setQuiz] = useState<Quiz[]>([]);
+    const [quiz, setQuiz] = useState<QuizType[]>([]);
     const { search } = useLocation();
     const [searchParams] = useSearchParams(search);
     const categoryId = searchParams.get("category");
@@ -27,7 +27,6 @@ const Quiz: React.FC = () => {
     const currentQuiz = quiz[currentIdx];
     const [answers, setAnswers] = useState<{ [key: number]: string | boolean }>({});
     const [isFinished, setIsFinished] = useState<boolean>(false);
-    console.log(answers);
 
     const getQuiz = async () => {
         try {
@@ -35,8 +34,9 @@ const Quiz: React.FC = () => {
             const results = await res.data.results;
             if (!results.length) throw Error("Questions Not Available.");
             setQuiz(formatQuizWithOptions(results));
-        } catch (err: any) {
-            setError(err?.message || "Something went wrong.")
+        } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : "Something went wrong.");
+
         } finally {
             setLoading(false);
         }
@@ -49,7 +49,7 @@ const Quiz: React.FC = () => {
         }
         getQuiz();
 
-    }, []);
+    }, [getQuiz]);
 
     if (loading) {
         return <Loader />;
@@ -58,10 +58,8 @@ const Quiz: React.FC = () => {
     const handleNextQuestion = () => {
         if (currentIdx < quiz.length - 1) {
             setCurrentIdx(currentIdx + 1);
-        } else {
         }
     }
-    console.log(quiz);
 
     const handlePrevQuestion = () => {
         setCurrentIdx(currentIdx - 1);
@@ -75,7 +73,7 @@ const Quiz: React.FC = () => {
         <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-purple-50 to-blue-100 p-6">
             {error.length ? error :
                 isFinished ?
-                    <QuizResult answers={answers} quiz={quiz}/>  : <QuestionCard
+                    <QuizResult answers={answers} quiz={quiz} /> : <QuestionCard
                         setIsFinished={() => setIsFinished(true)}
                         onAnswer={handleAnswer}
                         selected={answers[currentIdx] ?? null}

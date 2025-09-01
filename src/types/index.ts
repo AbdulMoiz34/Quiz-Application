@@ -3,7 +3,7 @@ export interface Category {
     name: string;
 }
 
-export type Quiz = {
+export type QuizType = {
     correct_answer: string;
     question: string;
     options: string[];

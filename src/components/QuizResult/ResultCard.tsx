@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import type { Quiz } from "../../types";
+import type { QuizType } from "../../types";
 
 interface QuizResultProps {
     answers: { [key: number]: string | boolean },
-    quiz: Quiz[];
+    quiz: QuizType[];
 }
 
 const QuizResult = ({ answers, quiz }: QuizResultProps) => {

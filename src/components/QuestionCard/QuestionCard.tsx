@@ -1,9 +1,9 @@
 import { Button, Card, Progress, Radio, Space, Tag } from 'antd';
-import type { Quiz } from '../../types';
+import type { QuizType } from '../../types';
 import { CiShoppingTag } from 'react-icons/ci';
 import { FaPalette } from 'react-icons/fa';
 
-interface QuestionCardProps extends Quiz {
+interface QuestionCardProps extends QuizType {
     totalQuestions: number;
     currentIdx: number;
     handleNextQuestion: () => void;

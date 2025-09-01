@@ -16,8 +16,8 @@ const Home = () => {
             try {
                 const { data } = await axios.get("https://opentdb.com/api_category.php");
                 setCategories(data.trivia_categories);
-            } catch (error: any) {
-                setError(error?.message || "Something went wrong.")
+            } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : "Something went wrong.");
             } finally {
                 setLoading(false);
             }
