@@ -18,10 +18,10 @@ const QuestionCard = ({ question, options, currentIdx, totalQuestions, difficult
     return (
         <Card
             className="w-full max-w-3xl shadow-xl rounded-2xl p-8 flex flex-col gap-6 bg-white">
-            {/* Header */}
+
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                 <h1 className="text-3xl font-bold text-gray-800">Quiz Time 🎯</h1>
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-wrap">
                     <Tag
                         icon={<CiShoppingTag />}
                         color="green"

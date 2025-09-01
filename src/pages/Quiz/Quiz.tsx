@@ -35,7 +35,7 @@ const Quiz: React.FC = () => {
             if (!results.length) throw Error("Questions Not Available.");
             setQuiz(formatQuizWithOptions(results));
         } catch (err: unknown) {
-                setError(err instanceof Error ? err.message : "Something went wrong.");
+            setError(err instanceof Error ? err.message : "Something went wrong.");
 
         } finally {
             setLoading(false);
@@ -73,7 +73,8 @@ const Quiz: React.FC = () => {
         <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-purple-50 to-blue-100 p-6">
             {error.length ? error :
                 isFinished ?
-                    <QuizResult answers={answers} quiz={quiz} /> : <QuestionCard
+                    <QuizResult answers={answers} quiz={quiz} /> :
+                    <QuestionCard
                         setIsFinished={() => setIsFinished(true)}
                         onAnswer={handleAnswer}
                         selected={answers[currentIdx] ?? null}
@@ -81,7 +82,8 @@ const Quiz: React.FC = () => {
                         totalQuestions={quiz.length}
                         currentIdx={currentIdx}
                         handleNextQuestion={handleNextQuestion}
-                        handlePrevQuestion={handlePrevQuestion} />
+                        handlePrevQuestion={handlePrevQuestion}
+                    />
             }
         </div>
     );
